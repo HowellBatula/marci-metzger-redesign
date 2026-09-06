@@ -1,0 +1,222 @@
+@import "tailwindcss";
+
+/* ===========================================================
+   MARCI METZGER HOMES — design tokens (v2 / Awwwards rebuild)
+   Monochrome-first system modeled on 360lexingtonave.com:
+   one typeface (Instrument Sans) doing all the work, huge
+   regular-weight headlines with tight negative tracking, near-
+   black / white base, color supplied by photography. One brass
+   accent kept for CTA affordance (the reference has none, but a
+   realtor site needs a clickable-looking action color).
+   =========================================================== */
+
+:root {
+  --ink: #111213;
+  --ink-soft: rgba(17, 18, 19, 0.7);
+  --muted: rgba(17, 18, 19, 0.56);
+  --paper: #ffffff;
+  --paper-2: #f7f7f5;
+  --line: rgba(17, 18, 19, 0.12);
+  --dark: #111213;
+  --dark-2: #1b1c1d;
+  --line-dark: rgba(255, 255, 255, 0.14);
+  --on-dark: #ffffff;
+  --on-dark-muted: rgba(255, 255, 255, 0.66);
+  --accent: #9c7a3e;
+  --accent-light: #c7a467;
+
+  --container: 1400px;
+  --gutter: clamp(1.25rem, 4vw, 4rem);
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+
+  --tracking-tight: -0.03em;
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-muted: var(--muted);
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-line: var(--line);
+  --color-dark: var(--dark);
+  --color-dark-2: var(--dark-2);
+  --color-line-dark: var(--line-dark);
+  --color-on-dark: var(--on-dark);
+  --color-on-dark-muted: var(--on-dark-muted);
+  --color-accent: var(--accent);
+  --color-accent-light: var(--accent-light);
+
+  --font-sans: var(--font-instrument-sans);
+
+  --container-page: var(--container);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.container {
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 0.75rem 1.25rem;
+  z-index: 1000;
+}
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+}
+
+/* page-load cover, prevents flash of unrevealed content */
+.cover {
+  position: fixed;
+  inset: 0;
+  background: var(--dark);
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.7s var(--ease-out);
+}
+.cover.is-hidden {
+  opacity: 0;
+}
+
+/* ---------- typography scale ---------- */
+.h1 {
+  font-weight: 400;
+  letter-spacing: var(--tracking-tight);
+  line-height: 0.98;
+  font-size: clamp(3rem, 3vw + 4rem, 7rem);
+}
+.h2 {
+  font-weight: 400;
+  letter-spacing: var(--tracking-tight);
+  line-height: 1.02;
+  font-size: clamp(2.5rem, 2.5vw + 1.75rem, 4.625rem);
+}
+.h3 {
+  font-weight: 400;
+  letter-spacing: var(--tracking-tight);
+  line-height: 1.08;
+  font-size: clamp(1.75rem, 1vw + 1.5rem, 3rem);
+}
+.eyebrow {
+  font-size: 0.8125rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.eyebrow--light {
+  color: var(--on-dark-muted);
+}
+.body-lg {
+  font-size: clamp(1.125rem, 0.5vw + 1rem, 1.375rem);
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+
+/* ---------- ghost numeral ---------- */
+.ghost-numeral {
+  font-weight: 400;
+  letter-spacing: var(--tracking-tight);
+  color: transparent;
+  -webkit-text-stroke: 1px var(--line);
+  font-size: clamp(4rem, 6vw, 8rem);
+  line-height: 1;
+}
+.ghost-numeral--light {
+  -webkit-text-stroke: 1px var(--line-dark);
+}
+
+/* ---------- pill nav / buttons ---------- */
+.pill {
+  border-radius: 9999px;
+}
+
+/* ---------- form fields ---------- */
+.field-input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+  padding: 0.5rem 0;
+  color: var(--ink);
+  font-size: 0.9375rem;
+  font-family: inherit;
+  outline: none;
+}
+.field-input:focus {
+  border-color: var(--ink);
+}
+.field-input--dark {
+  border-bottom-color: var(--line-dark);
+  color: var(--on-dark);
+}
+.field-input--dark:focus {
+  border-color: var(--on-dark);
+}
+
+/* ---------- reveal (GSAP-driven; JS adds .is-visible) ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.9s var(--ease-out),
+    transform 0.9s var(--ease-out);
+}
+
+/* ---------- hero Ken Burns drift (disabled by the reduced-motion rule above) ---------- */
+@keyframes kenburns {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.09);
+  }
+}

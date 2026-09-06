@@ -1,0 +1,101 @@
+[
+  {
+    "id": "1",
+    "title": "Fairway View Estate",
+    "location": "Mountain Falls",
+    "type": "Single Family",
+    "beds": 4,
+    "baths": 3,
+    "price": 685000,
+    "sqft": 3120,
+    "image": "/img/gallery-1-4460-roseworthy-52.jpg"
+  },
+  {
+    "id": "2",
+    "title": "Desert Sunroom Retreat",
+    "location": "Calvada Valley",
+    "type": "Single Family",
+    "beds": 3,
+    "baths": 2,
+    "price": 419000,
+    "sqft": 2140,
+    "image": "/img/gallery-2-5570-ailanto-14.jpg"
+  },
+  {
+    "id": "3",
+    "title": "Cul-de-Sac Pool Home",
+    "location": "Mountain Falls",
+    "type": "Single Family",
+    "beds": 5,
+    "baths": 4,
+    "price": 799000,
+    "sqft": 3840,
+    "image": "/img/gallery-3-5570-ailanto-45.jpg"
+  },
+  {
+    "id": "4",
+    "title": "Greenbelt Spa & Pool",
+    "location": "Mountain Falls",
+    "type": "Single Family",
+    "beds": 4,
+    "baths": 3,
+    "price": 725000,
+    "sqft": 3300,
+    "image": "/img/gallery-4-5570-ailanto-50.jpg"
+  },
+  {
+    "id": "5",
+    "title": "Beacon Ridge Clubhouse Collection",
+    "location": "Pahrump Valley",
+    "type": "Single Family",
+    "beds": 3,
+    "baths": 2,
+    "price": 389000,
+    "sqft": 1980,
+    "image": "/img/gallery-5-4787-e-beacon-ridge-54.jpg"
+  },
+  {
+    "id": "6",
+    "title": "Amenity-Adjacent New Build",
+    "location": "Pahrump Valley",
+    "type": "Single Family",
+    "beds": 3,
+    "baths": 2,
+    "price": 405000,
+    "sqft": 2010,
+    "image": "/img/gallery-6-4787-e-beacon-ridge-53.jpg"
+  },
+  {
+    "id": "7",
+    "title": "Golf Course Streetscape",
+    "location": "Blagg Road",
+    "type": "Single Family",
+    "beds": 4,
+    "baths": 2,
+    "price": 459000,
+    "sqft": 2260,
+    "image": "/img/gallery-7-4787-e-beacon-ridge-41.jpg"
+  },
+  {
+    "id": "8",
+    "title": "Infinity-Edge Hillside Villa",
+    "location": "Homestead",
+    "type": "Single Family",
+    "beds": 5,
+    "baths": 5,
+    "price": 1150000,
+    "sqft": 4600,
+    "image": "/img/banner-find-your-dream-home.jpg"
+  },
+  {
+    "id": "9",
+    "title": "Manse Road Homestead Lot",
+    "location": "Manse",
+    "type": "Land / Lot",
+    "beds": 0,
+    "baths": 0,
+    "price": 89000,
+    "sqft": null,
+    "image": "/img/services-commercial-residential.jpg"
+  }
+]
