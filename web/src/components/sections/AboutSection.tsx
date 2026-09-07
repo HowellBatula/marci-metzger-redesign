@@ -1,13 +1,20 @@
 import { SplitPanel } from "@/components/ui/SplitPanel";
+import { SectionHeader } from "@/components/ui/SectionHeader";
 
 export function AboutSection() {
   return (
-    <section id="about">
+    <section id="about" aria-labelledby="about-heading">
+      <div className="container-page pt-24 pb-14 md:pt-32">
+        <SectionHeader
+          number="01"
+          eyebrow="Meet Your Agent"
+          title="Marci Metzger"
+          titleId="about-heading"
+        />
+      </div>
+
       <SplitPanel
         tone="light"
-        number="01"
-        eyebrow="Meet Your Agent"
-        title="Marci Metzger"
         mediaSide="left"
         image={{
           src: "/img/about-marci-portrait.jpg",
@@ -29,7 +36,7 @@ export function AboutSection() {
         extra={
           <a
             href="tel:12069196886"
-            className="mt-6 inline-block border-b border-ink text-sm tracking-wide text-ink"
+            className="mt-6 inline-flex min-h-11 items-center border-b border-ink text-sm tracking-wide text-ink"
           >
             206-919-6886
           </a>

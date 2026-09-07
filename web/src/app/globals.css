@@ -8,12 +8,22 @@
    black / white base, color supplied by photography. One brass
    accent kept for CTA affordance (the reference has none, but a
    realtor site needs a clickable-looking action color).
+
+   CASCADE CONTRACT — read before adding a class here:
+   Every custom class below lives in `@layer components`, which
+   Tailwind orders BELOW `utilities`. That means a Tailwind
+   utility in the markup always wins over these rules. Keep it
+   that way: custom classes own structure and scale, utilities
+   own color and spacing. Do not set `color` in a class here
+   unless you intend it as a default that markup can override.
    =========================================================== */
 
 :root {
   --ink: #111213;
   --ink-soft: rgba(17, 18, 19, 0.7);
-  --muted: rgba(17, 18, 19, 0.56);
+  /* 0.62 composites to ~#6b6c6d → 5.30:1 on white, 5.17:1 on --paper-2.
+     Was 0.56, which measured 4.20:1 and failed WCAG AA for body text. */
+  --muted: rgba(17, 18, 19, 0.62);
   --paper: #ffffff;
   --paper-2: #f7f7f5;
   --line: rgba(17, 18, 19, 0.12);
@@ -22,8 +32,16 @@
   --line-dark: rgba(255, 255, 255, 0.14);
   --on-dark: #ffffff;
   --on-dark-muted: rgba(255, 255, 255, 0.66);
-  --accent: #9c7a3e;
+  /* Darkened from #9c7a3e (3.99:1 under white — failed AA) to 4.96:1.
+     --accent is only ever a background beneath white text; --accent-light
+     is only ever used on --dark (8.03:1) and needs no change. */
+  --accent: #8a6b34;
   --accent-light: #c7a467;
+
+  /* Ghost numerals are aria-hidden decoration, so WCAG 1.4.11 does not
+     apply — 0.12 was raised to 0.34 simply because they were invisible. */
+  --numeral-stroke: rgba(17, 18, 19, 0.34);
+  --numeral-stroke-light: rgba(255, 255, 255, 0.34);
 
   --container: 1400px;
   --gutter: clamp(1.25rem, 4vw, 4rem);
@@ -64,16 +82,6 @@ html {
   scroll-behavior: auto;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
 body {
   margin: 0;
   background: var(--paper);
@@ -89,129 +97,214 @@ img {
   display: block;
 }
 
-.container {
-  max-width: var(--container);
-  margin-inline: auto;
-  padding-inline: var(--gutter);
+/* Single contextual focus ring. `currentColor` means it inherits the
+   element's own text color, so it reads on both the white sections and
+   the --dark panels without a per-component pass. Sits in `base` so any
+   future focus:outline-* utility can still override it. */
+@layer base {
+  :focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
 }
 
-.skip-link {
-  position: absolute;
-  left: -999px;
-  top: 0;
-  background: var(--ink);
-  color: var(--paper);
-  padding: 0.75rem 1.25rem;
-  z-index: 1000;
-}
-.skip-link:focus {
-  left: 1rem;
-  top: 1rem;
-}
-
-/* page-load cover, prevents flash of unrevealed content */
-.cover {
-  position: fixed;
-  inset: 0;
-  background: var(--dark);
-  z-index: 9999;
-  pointer-events: none;
-  opacity: 1;
-  transition: opacity 0.7s var(--ease-out);
-}
-.cover.is-hidden {
-  opacity: 0;
+/* Reduced motion. `animation-iteration-count: 1` is load-bearing: without
+   it, duration:0.01ms on an `infinite alternate` animation doesn't stop
+   the animation, it makes it oscillate as fast as the compositor allows —
+   the exact harm this query exists to prevent. `.hero-kenburns` is then
+   killed outright so it doesn't even play its single scale-and-back.
+   Deliberately NOT setting transition-delay here: that would mask the
+   staggered menu entrance rather than let it degrade gracefully. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .hero-kenburns {
+    animation: none !important;
+  }
+  .cover {
+    transition: none !important;
+  }
 }
 
-/* ---------- typography scale ---------- */
-.h1 {
-  font-weight: 400;
-  letter-spacing: var(--tracking-tight);
-  line-height: 0.98;
-  font-size: clamp(3rem, 3vw + 4rem, 7rem);
-}
-.h2 {
-  font-weight: 400;
-  letter-spacing: var(--tracking-tight);
-  line-height: 1.02;
-  font-size: clamp(2.5rem, 2.5vw + 1.75rem, 4.625rem);
-}
-.h3 {
-  font-weight: 400;
-  letter-spacing: var(--tracking-tight);
-  line-height: 1.08;
-  font-size: clamp(1.75rem, 1vw + 1.5rem, 3rem);
-}
-.eyebrow {
-  font-size: 0.8125rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-.eyebrow--light {
-  color: var(--on-dark-muted);
-}
-.body-lg {
-  font-size: clamp(1.125rem, 0.5vw + 1rem, 1.375rem);
-  line-height: 1.55;
-  color: var(--ink-soft);
+/* No-JS fallback. The reveal system ships 41 elements at opacity:0 and
+   relies on GSAP to un-hide them; without this the whole page is blank
+   if scripting is unavailable. Preferred over <noscript><style>, which
+   is invalid HTML outside <head>. */
+@media (scripting: none) {
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .cover {
+    display: none !important;
+  }
 }
 
-/* ---------- ghost numeral ---------- */
-.ghost-numeral {
-  font-weight: 400;
-  letter-spacing: var(--tracking-tight);
-  color: transparent;
-  -webkit-text-stroke: 1px var(--line);
-  font-size: clamp(4rem, 6vw, 8rem);
-  line-height: 1;
-}
-.ghost-numeral--light {
-  -webkit-text-stroke: 1px var(--line-dark);
+@layer components {
+  /* NOTE: named .container-page, not .container — Tailwind ships a built-in
+     .container utility with a breakpoint ladder, and once these rules live
+     in a layer that utility would win, silently changing max-width from
+     1400px to 1280/1536px. */
+  .container-page {
+    max-width: var(--container);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  .skip-link {
+    position: absolute;
+    left: -999px;
+    top: 0;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0.75rem 1.25rem;
+    z-index: 1000;
+  }
+  .skip-link:focus {
+    left: 1rem;
+    top: 1rem;
+  }
+
+  /* page-load cover, masks the opacity:0 reveals during hydration */
+  .cover {
+    position: fixed;
+    inset: 0;
+    background: var(--dark);
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 1;
+    transition: opacity 0.35s var(--ease-out);
+  }
+  .cover.is-hidden {
+    opacity: 0;
+  }
+
+  /* ---------- typography scale ---------- */
+  .h1 {
+    font-weight: 400;
+    letter-spacing: var(--tracking-tight);
+    line-height: 0.98;
+    font-size: clamp(3rem, 3vw + 4rem, 7rem);
+  }
+  .h2 {
+    font-weight: 400;
+    letter-spacing: var(--tracking-tight);
+    line-height: 1.02;
+    font-size: clamp(2.5rem, 2.5vw + 1.75rem, 4.625rem);
+  }
+  .h3 {
+    font-weight: 400;
+    letter-spacing: var(--tracking-tight);
+    line-height: 1.08;
+    font-size: clamp(1.75rem, 1vw + 1.5rem, 3rem);
+  }
+
+  .eyebrow {
+    font-size: 0.8125rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  /* Modifier pairs below are resolved by SOURCE ORDER, not specificity —
+     they share a layer and a weight. Each --modifier must stay immediately
+     after its base rule. This is load-bearing, not cosmetic. */
+  .eyebrow--light {
+    color: var(--on-dark-muted);
+  }
+
+  .body-lg {
+    font-size: clamp(1.125rem, 0.5vw + 1rem, 1.375rem);
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- ghost numeral ---------- */
+  .ghost-numeral {
+    font-weight: 400;
+    letter-spacing: var(--tracking-tight);
+    color: transparent;
+    -webkit-text-stroke: 1px var(--numeral-stroke);
+    font-size: clamp(4rem, 6vw, 8rem);
+    line-height: 1;
+  }
+  .ghost-numeral--light {
+    -webkit-text-stroke: 1px var(--numeral-stroke-light);
+  }
+
+  /* ---------- hero ---------- */
+  /* Named class rather than an arbitrary-value utility so the
+     reduced-motion query above can target it. */
+  .hero-kenburns {
+    animation: kenburns 22s var(--ease-soft) infinite alternate;
+  }
+
+  /* The previous scrim used a via-black/15 midpoint, which landed exactly
+     where the eyebrow and subheading sit — over the brightest part of the
+     photograph. Weighted toward the bottom instead. */
+  .hero-scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.88) 0%,
+      rgba(0, 0, 0, 0.72) 30%,
+      rgba(0, 0, 0, 0.38) 60%,
+      rgba(0, 0, 0, 0.5) 100%
+    );
+  }
+
+  /* ---------- pill / buttons ---------- */
+  .pill {
+    border-radius: 9999px;
+  }
+
+  /* ---------- form fields ---------- */
+  /* No `outline: none` here — the focus ring in @layer base is the only
+     focus affordance these fields have, and components beats base. */
+  .field-input {
+    width: 100%;
+    min-height: 2.75rem;
+    border: none;
+    border-bottom: 1px solid var(--line);
+    background: transparent;
+    padding: 0.625rem 0;
+    color: var(--ink);
+    font-size: 0.9375rem;
+    font-family: inherit;
+  }
+  .field-input:focus {
+    border-color: var(--ink);
+  }
+  .field-input--dark {
+    border-bottom-color: var(--line-dark);
+    color: var(--on-dark);
+  }
+  .field-input--dark:focus {
+    border-color: var(--on-dark);
+  }
+
+  /* ---------- reveal (GSAP-driven; JS adds .is-visible) ---------- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 0.9s var(--ease-out),
+      transform 0.9s var(--ease-out);
+  }
 }
 
-/* ---------- pill nav / buttons ---------- */
-.pill {
-  border-radius: 9999px;
-}
-
-/* ---------- form fields ---------- */
-.field-input {
-  width: 100%;
-  border: none;
-  border-bottom: 1px solid var(--line);
-  background: transparent;
-  padding: 0.5rem 0;
-  color: var(--ink);
-  font-size: 0.9375rem;
-  font-family: inherit;
-  outline: none;
-}
-.field-input:focus {
-  border-color: var(--ink);
-}
-.field-input--dark {
-  border-bottom-color: var(--line-dark);
-  color: var(--on-dark);
-}
-.field-input--dark:focus {
-  border-color: var(--on-dark);
-}
-
-/* ---------- reveal (GSAP-driven; JS adds .is-visible) ---------- */
-.reveal {
-  opacity: 0;
-  transform: translateY(28px);
-}
-.reveal.is-visible {
-  opacity: 1;
-  transform: none;
-  transition:
-    opacity 0.9s var(--ease-out),
-    transform 0.9s var(--ease-out);
-}
-
-/* ---------- hero Ken Burns drift (disabled by the reduced-motion rule above) ---------- */
 @keyframes kenburns {
   from {
     transform: scale(1);

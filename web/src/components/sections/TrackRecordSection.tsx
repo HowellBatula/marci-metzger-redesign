@@ -1,21 +1,21 @@
-import { Reveal } from "@/components/ui/Reveal";
 import { SplitPanel } from "@/components/ui/SplitPanel";
+import { SectionHeader } from "@/components/ui/SectionHeader";
 
 export function TrackRecordSection() {
   return (
-    <section id="sold">
+    <section id="sold" aria-labelledby="sold-heading">
       <div className="bg-dark px-[var(--gutter)] pb-14 pt-24 text-on-dark md:pt-32">
-        <Reveal>
-          <p className="eyebrow eyebrow--light mb-6">02 &nbsp;/&nbsp; Track Record</p>
-        </Reveal>
-        <Reveal delay={1}>
-          <h2 className="h2">Get It Sold</h2>
-        </Reveal>
+        <SectionHeader
+          number="02"
+          eyebrow="Track Record"
+          title="Get It Sold"
+          titleId="sold-heading"
+          tone="dark"
+        />
       </div>
 
       <SplitPanel
         tone="dark"
-        number="01"
         title="Top Residential Sales Last 5 Years"
         mediaSide="right"
         image={{
@@ -41,7 +41,6 @@ export function TrackRecordSection() {
 
       <SplitPanel
         tone="light"
-        number="02"
         title="Don't Just List It…"
         mediaSide="left"
         image={{
@@ -53,7 +52,6 @@ export function TrackRecordSection() {
 
       <SplitPanel
         tone="dark"
-        number="03"
         title="Guide to Buyers"
         mediaSide="right"
         image={{

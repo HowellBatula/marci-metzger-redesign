@@ -10,10 +10,13 @@ const LOGOS = [
 
 export function AffiliationsSection() {
   return (
-    <section className="border-y border-line py-12">
+    <section
+      aria-label="Affiliations and memberships"
+      className="border-y border-line py-12"
+    >
       <Reveal
         as="div"
-        className="container flex flex-wrap items-center justify-center gap-x-14 gap-y-8"
+        className="container-page flex flex-wrap items-center justify-center gap-x-14 gap-y-8"
       >
         {LOGOS.map((logo) => (
           <div key={logo.src} className="relative h-12 w-24 opacity-60 grayscale transition-opacity hover:opacity-100">

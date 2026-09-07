@@ -4,6 +4,7 @@ import { LenisProvider } from "@/lib/lenis-provider";
 import { PageCover } from "@/components/ui/PageCover";
 import { SiteNav } from "@/components/nav/SiteNav";
 import { CookieBanner } from "@/components/ui/CookieBanner";
+import { OFFICE_HOURS } from "@/lib/office-hours";
 import "./globals.css";
 
 const instrumentSans = Instrument_Sans({
@@ -43,6 +44,14 @@ const jsonLd = {
     addressCountry: "US",
   },
   url: SITE_URL,
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: [...OFFICE_HOURS.days],
+      opens: OFFICE_HOURS.opens,
+      closes: OFFICE_HOURS.closes,
+    },
+  ],
   sameAs: [
     "https://www.facebook.com/MarciHomes/",
     "https://www.instagram.com/marcimetzger_theridge/",

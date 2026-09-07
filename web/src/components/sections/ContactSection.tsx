@@ -3,18 +3,15 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { AlertCircle } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
+import { SectionHeader } from "@/components/ui/SectionHeader";
 import { SOCIAL_LINKS } from "@/lib/social-links";
 import { PHONE_DISPLAY, PHONE_HREF } from "@/lib/nav-links";
+import { OFFICE_HOURS } from "@/lib/office-hours";
+import { contactSchema, type ContactValues } from "@/lib/contact-schema";
 
-const contactSchema = z.object({
-  name: z.string().optional(),
-  email: z.string().min(1, "Email is required").email("Enter a valid email"),
-  message: z.string().optional(),
-});
-
-type ContactValues = z.infer<typeof contactSchema>;
+const MAP_QUERY = "36.184402445333134,-115.95528754494798";
 
 export function ContactSection() {
   const {
@@ -29,42 +26,116 @@ export function ContactSection() {
   // src/app/api/contact/route.ts for the scaffolded (unwired) endpoint.
   function onSubmit() {
     setNote(
-      "Thanks — this demo form isn't wired to an inbox yet. Call (206) 919-6886 in the meantime."
+      `Thanks — this demo form isn't wired to an inbox yet. Call ${PHONE_DISPLAY} in the meantime.`
     );
     reset();
   }
 
   return (
-    <section id="contact" className="bg-dark text-on-dark">
-      <div className="container grid gap-16 py-24 md:grid-cols-2 md:py-32">
+    <section
+      id="contact"
+      aria-labelledby="contact-heading"
+      className="bg-dark text-on-dark"
+    >
+      <div className="container-page grid gap-16 py-24 md:grid-cols-2 md:py-32">
         <Reveal>
-          <p className="eyebrow eyebrow--light mb-6">06 &nbsp;/&nbsp; Get in Touch</p>
-          <h2 className="h2 mb-10">Call or Visit</h2>
+          <SectionHeader
+            number="06"
+            eyebrow="Get in Touch"
+            title="Call or Visit"
+            titleId="contact-heading"
+            tone="dark"
+          />
 
-          <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
-            <label className="flex flex-col gap-1.5 text-xs tracking-wide text-on-dark-muted">
-              <span>Name</span>
-              <input {...register("name")} type="text" autoComplete="name" className="field-input field-input--dark" />
-            </label>
-            <label className="flex flex-col gap-1.5 text-xs tracking-wide text-on-dark-muted">
-              <span>Email *</span>
-              <input {...register("email")} type="email" autoComplete="email" className="field-input field-input--dark" />
+          {/* noValidate keeps `required` in the accessibility tree while
+              suppressing the browser's native bubble, so react-hook-form +
+              zod stay the single source of validation truth. */}
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            noValidate
+            className="mt-10 flex flex-col gap-6"
+          >
+            <div className="flex flex-col gap-1.5">
+              <label
+                htmlFor="contact-name"
+                className="text-xs tracking-wide text-on-dark-muted"
+              >
+                Name
+              </label>
+              <input
+                id="contact-name"
+                type="text"
+                autoComplete="name"
+                {...register("name")}
+                className="field-input field-input--dark"
+              />
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <label
+                htmlFor="contact-email"
+                className="text-xs tracking-wide text-on-dark-muted"
+              >
+                Email <span aria-hidden="true">*</span>
+                <span className="sr-only">(required)</span>
+              </label>
+              <input
+                id="contact-email"
+                type="email"
+                autoComplete="email"
+                required
+                aria-invalid={errors.email ? true : undefined}
+                aria-describedby={
+                  errors.email ? "contact-email-error" : undefined
+                }
+                {...register("email")}
+                className="field-input field-input--dark"
+              />
               {errors.email && (
-                <span className="text-xs text-accent-light">{errors.email.message}</span>
+                // Icon + "Error:" prefix so the failure isn't signalled by
+                // colour alone. Sibling of the label, not a child — nesting it
+                // inside folded the message into the field's accessible name.
+                <p
+                  id="contact-email-error"
+                  className="flex items-center gap-1.5 text-xs text-accent-light"
+                >
+                  <AlertCircle size={14} aria-hidden="true" />
+                  <span>
+                    <span className="sr-only">Error: </span>
+                    {errors.email.message}
+                  </span>
+                </p>
               )}
-            </label>
-            <label className="flex flex-col gap-1.5 text-xs tracking-wide text-on-dark-muted">
-              <span>Message</span>
-              <textarea {...register("message")} rows={4} className="field-input field-input--dark resize-none" />
-            </label>
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <label
+                htmlFor="contact-message"
+                className="text-xs tracking-wide text-on-dark-muted"
+              >
+                Message
+              </label>
+              <textarea
+                id="contact-message"
+                rows={4}
+                {...register("message")}
+                className="field-input field-input--dark resize-none"
+              />
+            </div>
+
             <button
               type="submit"
               className="pill mt-2 self-start border border-line-dark px-6 py-3.5 text-sm tracking-wide text-on-dark transition-colors hover:bg-white/10"
             >
               Send
             </button>
+
             {note && (
-              <p role="status" aria-live="polite" className="text-sm text-on-dark-muted">
+              <p
+                role="status"
+                aria-live="polite"
+                className="text-sm text-on-dark-muted"
+              >
                 {note}
               </p>
             )}
@@ -73,26 +144,29 @@ export function ContactSection() {
 
         <Reveal delay={1}>
           <h3 className="h3 mb-6">Marci Metzger — The Ridge Realty Group</h3>
-          <address className="not-italic text-on-dark-muted">
+          <address className="text-on-dark-muted not-italic">
             3190 HW-160, Suite F
             <br />
             Pahrump, Nevada 89048
             <br />
             United States
           </address>
-          <a href={PHONE_HREF} className="mt-4 inline-block border-b border-line-dark text-on-dark">
+          <a
+            href={PHONE_HREF}
+            className="mt-4 inline-flex min-h-11 items-center border-b border-line-dark text-on-dark"
+          >
             {PHONE_DISPLAY}
           </a>
 
           <div className="mt-10">
             <h4 className="mb-2 text-sm text-on-dark">Office Hours</h4>
+            {/* Was "Open today · …", which asserted a live fact the page can't
+                know and duplicated the line below it. */}
             <p className="text-sm text-on-dark-muted">
-              Open today &middot; 8:00&nbsp;AM &ndash; 7:00&nbsp;PM
+              {OFFICE_HOURS.displayDays} &middot; {OFFICE_HOURS.displayOpens}{" "}
+              &ndash; {OFFICE_HOURS.displayCloses}
             </p>
-            <p className="text-sm text-on-dark-muted">
-              Open daily &middot; 8:00&nbsp;AM &ndash; 7:00&nbsp;PM
-            </p>
-            <p className="mt-2 text-sm text-on-dark-muted/70">
+            <p className="mt-2 text-sm text-on-dark-muted">
               Appointments outside office hours available upon request. Just
               call.
             </p>
@@ -104,8 +178,8 @@ export function ContactSection() {
                 key={link.label}
                 href={link.href}
                 target="_blank"
-                rel="noopener"
-                className="text-xs tracking-[0.14em] text-on-dark-muted uppercase hover:text-on-dark"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-11 items-center text-xs tracking-[0.14em] text-on-dark-muted uppercase hover:text-on-dark"
               >
                 {link.label}
               </a>
@@ -117,16 +191,16 @@ export function ContactSection() {
       <Reveal as="div" className="relative h-[420px]">
         <iframe
           title="Map to 3190 HW-160, Suite F, Pahrump, Nevada"
-          src="https://www.google.com/maps?q=36.184402445333134,-115.95528754494798&z=14&output=embed"
+          src={`https://www.google.com/maps?q=${MAP_QUERY}&z=14&output=embed`}
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
-          className="h-full w-full border-0 grayscale contrast-125"
+          className="h-full w-full border-0 contrast-125 grayscale"
         />
         <a
-          href="https://www.google.com/maps?q=36.184402445333134,-115.95528754494798"
+          href={`https://www.google.com/maps?q=${MAP_QUERY}`}
           target="_blank"
-          rel="noopener"
-          className="pill absolute bottom-6 right-6 bg-accent px-5 py-3 text-sm text-on-dark"
+          rel="noopener noreferrer"
+          className="pill absolute right-6 bottom-6 bg-accent px-5 py-3 text-sm text-on-dark"
         >
           Get Directions
         </a>

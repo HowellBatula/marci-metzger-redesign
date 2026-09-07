@@ -5,7 +5,7 @@ export function SiteFooter() {
 
   return (
     <footer className="bg-dark text-on-dark">
-      <div className="container flex flex-col items-center gap-6 py-10 text-center md:flex-row md:justify-between md:text-left">
+      <div className="container-page flex flex-col items-center gap-6 py-10 text-center md:flex-row md:justify-between md:text-left">
         <p className="text-sm">Marci Metzger Homes</p>
         <div className="flex gap-5">
           {SOCIAL_LINKS.map((link) => (
@@ -13,7 +13,7 @@ export function SiteFooter() {
               key={link.label}
               href={link.href}
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
               className="text-xs tracking-[0.14em] text-on-dark-muted uppercase hover:text-on-dark"
             >
               {link.label}

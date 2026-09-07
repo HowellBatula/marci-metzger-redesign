@@ -10,18 +10,21 @@ export function Hero() {
       <div className="absolute inset-0">
         <Image
           src="/img/hero-mountain-falls-pond.jpg"
-          alt="Mountain Falls golf community at dusk, pond and fountains framed by desert mountains"
+          alt="Mountain Falls golf community on a clear day — fountain pond, fairways and the mountains beyond"
           fill
           priority
           sizes="100vw"
-          className="animate-[kenburns_22s_ease-in-out_infinite_alternate] object-cover"
+          className="hero-kenburns object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-black/40" />
+        <div className="hero-scrim" />
       </div>
 
-      <div className="container relative flex h-full flex-col justify-end pb-32 pt-32 md:pb-28">
+      <div className="container-page relative flex h-full flex-col justify-end pb-32 pt-32 md:pb-28">
         <Reveal>
-          <p className="eyebrow eyebrow--light mb-6">
+          {/* text-on-dark escalates this to pure white over the photograph.
+              Before the @layer components wrap this utility was silently
+              ignored; .eyebrow--light stays 0.66 for the solid-dark panels. */}
+          <p className="eyebrow eyebrow--light mb-6 text-on-dark">
             Marci Metzger &mdash; The Ridge Realty Group
           </p>
         </Reveal>
@@ -43,7 +46,7 @@ export function Hero() {
             <Button href={PHONE_HREF} variant="solid">
               Call Now
             </Button>
-            <Button href="#search" variant="outline-light">
+            <Button href="#search" variant="outlineLight">
               Search Homes
             </Button>
           </div>

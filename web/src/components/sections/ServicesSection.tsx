@@ -1,21 +1,20 @@
-import { Reveal } from "@/components/ui/Reveal";
 import { SplitPanel } from "@/components/ui/SplitPanel";
+import { SectionHeader } from "@/components/ui/SectionHeader";
 
 export function ServicesSection() {
   return (
-    <section id="services">
+    <section id="services" aria-labelledby="services-heading">
       <div className="px-[var(--gutter)] pb-14 pt-24 md:pt-32">
-        <Reveal>
-          <p className="eyebrow mb-6">05 &nbsp;/&nbsp; What We Do</p>
-        </Reveal>
-        <Reveal delay={1}>
-          <h2 className="h2">Our Services</h2>
-        </Reveal>
+        <SectionHeader
+          number="05"
+          eyebrow="What We Do"
+          title="Our Services"
+          titleId="services-heading"
+        />
       </div>
 
       <SplitPanel
         tone="light"
-        number="01"
         title="Real Estate Done Right"
         mediaSide="right"
         image={{ src: "/img/services-real-estate-done-right.jpg", alt: "Styled living room" }}
@@ -23,7 +22,6 @@ export function ServicesSection() {
       />
       <SplitPanel
         tone="dark"
-        number="02"
         title="Commercial & Residential"
         mediaSide="left"
         image={{ src: "/img/services-commercial-residential.jpg", alt: "Modern villa on a hillside with lap pool" }}
@@ -31,7 +29,6 @@ export function ServicesSection() {
       />
       <SplitPanel
         tone="light"
-        number="03"
         title="Rely on Expertise"
         mediaSide="right"
         image={{ src: "/img/services-rely-on-expertise.jpg", alt: "Handshake across a table with a smiling couple" }}
