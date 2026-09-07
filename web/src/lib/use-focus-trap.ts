@@ -25,7 +25,12 @@ const FOCUSABLE = [
 export function useFocusTrap(
   active: boolean,
   ref: React.RefObject<HTMLElement | null>,
-  onEscape?: () => void
+  onEscape?: () => void,
+  /**
+   * Where focus should land on open. Defaults to the first focusable child,
+   * which is only the right answer when that child is the dismiss control.
+   */
+  initialFocusRef?: React.RefObject<HTMLElement | null>
 ) {
   const escapeRef = useRef(onEscape);
 
@@ -48,7 +53,7 @@ export function useFocusTrap(
         (el) => el.offsetParent !== null
       );
 
-    (focusables()[0] ?? node).focus();
+    (initialFocusRef?.current ?? focusables()[0] ?? node).focus();
 
     function onKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
@@ -81,5 +86,5 @@ export function useFocusTrap(
       node.removeEventListener("keydown", onKeyDown);
       previouslyFocused?.focus?.();
     };
-  }, [active, ref]);
+  }, [active, ref, initialFocusRef]);
 }
