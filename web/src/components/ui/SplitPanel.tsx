@@ -16,7 +16,18 @@ type SplitPanelProps = {
    */
   titleAs?: "h2" | "h3";
   body: React.ReactNode;
-  image: { src: string; alt: string };
+  image: {
+    src: string;
+    alt: string;
+    /**
+     * CSS object-position for the crop. Defaults to "center", which is wrong
+     * for portraits: the panel gets wider without getting taller, so
+     * object-cover crops more off the top and bottom the larger the screen
+     * gets, and a face in the upper third rides out of frame. Give those a
+     * focal point nearer the top.
+     */
+    position?: string;
+  };
   mediaSide?: "left" | "right";
   extra?: React.ReactNode;
 };
@@ -83,13 +94,18 @@ export function SplitPanel({
   );
 
   const media = (
-    <div className="relative min-h-[320px] md:min-h-[520px]">
+    // The height grows with the viewport instead of staying fixed, so the
+    // crop stays roughly proportional as the column widens. With a flat
+    // 520px the box got relatively shorter the wider the screen, which is
+    // what pushed the portrait's face out of frame on large displays.
+    <div className="relative min-h-[320px] md:min-h-[clamp(520px,40vw,720px)]">
       <Image
         src={image.src}
         alt={image.alt}
         fill
         sizes="(min-width: 768px) 50vw, 100vw"
         className="object-cover"
+        style={{ objectPosition: image.position ?? "center" }}
       />
     </div>
   );

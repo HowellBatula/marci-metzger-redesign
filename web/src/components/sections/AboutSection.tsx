@@ -19,6 +19,9 @@ export function AboutSection() {
         image={{
           src: "/img/about-marci-portrait.jpg",
           alt: "Portrait of Marci Metzger",
+          // Her face sits between roughly 15% and 38% of this 2:3 portrait,
+          // so the crop is biased upward to keep it framed at every width.
+          position: "50% 17%",
         }}
         body={
           <>
