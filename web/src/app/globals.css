@@ -303,6 +303,55 @@ img {
       opacity 0.9s var(--ease-out),
       transform 0.9s var(--ease-out);
   }
+
+  /* ---------- gallery filmstrip ---------- */
+  /* Hides the native scrollbar on the horizontal gallery track. The strip
+     communicates scrollability through the peeking edge tile and the
+     Prev/Next controls instead of a visible scrollbar. */
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Feathers whichever edge still has more photos off-screen, so the cut
+     tile at the boundary reads as a deliberate peek rather than a clipped
+     edge. Variant applied by JS as scroll position changes. */
+  .gallery-fade {
+    mask-image: linear-gradient(to right, black calc(100% - 64px), transparent 100%);
+    -webkit-mask-image: linear-gradient(
+      to right,
+      black calc(100% - 64px),
+      transparent 100%
+    );
+  }
+  .gallery-fade--mid {
+    mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      black 64px,
+      black calc(100% - 64px),
+      transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      black 64px,
+      black calc(100% - 64px),
+      transparent 100%
+    );
+  }
+  .gallery-fade--end {
+    mask-image: linear-gradient(to right, transparent 0, black 64px, black 100%);
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      black 64px,
+      black 100%
+    );
+  }
 }
 
 @keyframes kenburns {
