@@ -83,13 +83,18 @@ export function SiteNav() {
             </button>
           </div>
 
-          <div className="justify-self-center">
-            {/* Constant height at every scroll position — it shrank on scroll
-                before, which read as inconsistent rather than refined. Sized
-                for legibility: a two-line wordmark with a script sub-line
-                turns to mush much below ~36px, so 44 stays fixed throughout. */}
-            <Logo light priority height={44} />
-          </div>
+          {/* Logo is the grid item directly, no extra wrapping div needed —
+              its own root already carries `justify-self-center`. (The
+              squish bug this area used to have was the img's own
+              `max-width:100%` reset, not this wrapper — see Logo.tsx.)
+
+              Constant height at every scroll position — it shrank on scroll
+              before, which read as inconsistent rather than refined. Sized
+              to be the clear focal point of the bar rather than merely
+              legible: checked against the hamburger/phone pills on either
+              side at a 375px viewport, where it still clears both with
+              ~12px to spare before anything would collide. */}
+          <Logo light priority height={56} className="justify-self-center" />
 
           <div className="justify-self-end">
             <a

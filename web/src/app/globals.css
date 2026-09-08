@@ -104,10 +104,16 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-img {
-  max-width: 100%;
-  display: block;
-}
+/* No custom `img{max-width:100%}` reset here — Tailwind's own preflight
+   (imported at the top of this file) already provides one, correctly
+   inside `@layer base`. A hand-written copy of the same rule sitting
+   unlayered here (as it used to) would out-rank EVERY Tailwind utility
+   regardless of specificity or source order — unlayered CSS always wins
+   over layered CSS, full stop — so no `max-w-*` utility could ever
+   override it. That's what silently squished Logo.tsx's fixed-size
+   wordmark down to its grid column's width on any viewport narrower than
+   the logo itself. See the CASCADE CONTRACT note at the top of this file:
+   the same reasoning is why every custom class below lives in a layer. */
 
 /* Single contextual focus ring. `currentColor` means it inherits the
    element's own text color, so it reads on both the white sections and
@@ -339,6 +345,23 @@ img {
   .glass--accent:hover {
     background: rgba(23, 18, 13, 0.76);
     border-color: rgba(210, 169, 104, 0.85);
+  }
+
+  /* Same dark-tint-only-ever-darkens logic as .glass above, but heavier:
+     this sits full-screen behind the mobile menu's nav links, which have to
+     stay legible over WHATEVER photo happens to be scrolled behind the page
+     when the menu opens — not a small button sitting over an
+     already-scrim-darkened hero. .glass's 0.6 opacity nets ~4.6:1 over a
+     worst-case pure-white backdrop, which clears AA but with almost no
+     margin for six lines of nav text plus a phone number and social links
+     at various sizes. At 0.9 opacity the same worst-case-white composite is
+     ~58,53,48 (near-black) — on-dark text stays 15:1+ regardless of what's
+     behind it, while the blur is heavy enough that what shows through
+     reads as a soft wash of light rather than a legible, distracting photo. */
+  .menu-glass {
+    background: rgba(23, 18, 13, 0.9);
+    backdrop-filter: blur(32px);
+    -webkit-backdrop-filter: blur(32px);
   }
 
   /* ---------- form fields ---------- */

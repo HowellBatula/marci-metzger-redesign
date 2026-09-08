@@ -37,7 +37,7 @@ export function Logo({
       href="#top"
       onClick={onAnchorClick}
       aria-label="Marci Metzger Homes — home"
-      className={cn("block", className)}
+      className={cn("block w-fit", className)}
     >
       <Image
         src="/img/logo-marci-metzger-header.png"
@@ -47,13 +47,21 @@ export function Logo({
         priority={priority}
         sizes={`${Math.round(height * LOGO_ASPECT)}px`}
         className={cn(
-          "h-auto w-auto",
+          // max-w-none: the global img reset (`max-width:100%`, for fluid
+          // content images) was clamping this logo's explicit pixel width
+          // down to its grid column's track width on any viewport narrower
+          // than roughly 3x the wordmark's natural width — mobile, mainly;
+          // wide desktop tracks never hit it, which is why it went
+          // unnoticed. A percentage max-width has no business on an image
+          // we're deliberately sizing to a fixed pixel box in the first
+          // place, inside a nav pill that isn't meant to be fluid.
+          "max-w-none",
           // The wordmark sits directly on photography rather than in a pill,
           // so it carries its own soft shadow to stay legible over a bright
           // sky or a pale section without needing a plate behind it.
           light && "brightness-0 invert drop-shadow-[0_1px_6px_rgba(0,0,0,0.45)]"
         )}
-        style={{ height }}
+        style={{ height, width: Math.round(height * LOGO_ASPECT) }}
       />
     </Link>
   );

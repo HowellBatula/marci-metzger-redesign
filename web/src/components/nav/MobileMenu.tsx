@@ -45,7 +45,7 @@ export function MobileMenu({
       // visibility:hidden also removes focusability, so this is covered twice.
       inert={!open || undefined}
       className={cn(
-        "fixed inset-0 z-[80] flex flex-col bg-dark text-on-dark",
+        "fixed inset-0 z-[80] flex flex-col menu-glass text-on-dark",
         "transition-[opacity,visibility] duration-500",
         open ? "visible opacity-100" : "pointer-events-none invisible opacity-0"
       )}
@@ -55,7 +55,7 @@ export function MobileMenu({
         {/* Dismisses the menu too — otherwise it scrolls to the top behind an
             overlay that stays open. */}
         <div className="justify-self-center" onClick={onClose}>
-          <Logo light height={44} forceScroll />
+          <Logo light height={56} forceScroll />
         </div>
         <button
           ref={closeRef}
