@@ -44,9 +44,15 @@
   --accent-light: #d2a968;
 
   /* Ghost numerals are aria-hidden decoration, so WCAG 1.4.11 does not
-     apply — 0.12 was raised to 0.34 simply because they were invisible. */
-  --numeral-stroke: rgba(28, 23, 18, 0.34);
-  --numeral-stroke-light: rgba(251, 248, 242, 0.34);
+     apply — 0.12 was raised to 0.34 simply because they were invisible.
+     Gold-tinted (not neutral ink/on-dark) so they read as the same motif
+     as every other numbered element on the page — nav numerals, gallery
+     counter, section eyebrows all went gold in the round-2 fix and the
+     ghost numeral was the one holdout still in a neutral tone. Alpha is
+     higher than the neutral version it replaces (0.34 → 0.4) because gold
+     is lighter than ink/on-dark and needs it to read at the same weight. */
+  --numeral-stroke: rgba(138, 107, 52, 0.4);
+  --numeral-stroke-light: rgba(210, 169, 104, 0.4);
 
   --container: 1400px;
   --gutter: clamp(1.25rem, 4vw, 4rem);

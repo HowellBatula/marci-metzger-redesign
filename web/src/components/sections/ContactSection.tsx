@@ -6,13 +6,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { AlertCircle } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeader } from "@/components/ui/SectionHeader";
+import { LocationMap } from "@/components/sections/LocationMap";
 import { SOCIAL_LINKS } from "@/lib/social-links";
 import { PHONE_DISPLAY, PHONE_HREF } from "@/lib/nav-links";
 import { OFFICE_HOURS } from "@/lib/office-hours";
 import { contactSchema, type ContactValues } from "@/lib/contact-schema";
-import { NEARBY_PLACES, nearbyPlaceHref } from "@/lib/nearby-places";
-
-const MAP_QUERY = "36.184402445333134,-115.95528754494798";
 
 export function ContactSection() {
   const {
@@ -189,53 +187,8 @@ export function ContactSection() {
         </Reveal>
       </div>
 
-      {/* Two-panel "nearby" layout, after 360lexingtonave.com's location
-          section: a numbered directory beside the map rather than a bare
-          embed. The list links to a Google Maps search per place instead of
-          hardcoded pin coordinates — we don't have real geodata to place
-          custom pins accurately, and a search link is always correct. The
-          grayscale/contrast filter that used to sit over the iframe is
-          gone: it muddied Google's own labels without giving us any of the
-          custom map styling that makes the reference look clean. */}
-      <Reveal as="div" className="grid md:grid-cols-[minmax(0,1fr)_2fr]">
-        <div className="bg-dark px-[var(--gutter)] py-12 text-on-dark md:py-16">
-          <p className="eyebrow eyebrow--light mb-6">Nearby</p>
-          <ul>
-            {NEARBY_PLACES.map((place, i) => (
-              <li key={place} className="border-b border-line-dark py-3">
-                <a
-                  href={nearbyPlaceHref(place)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-baseline gap-4 text-on-dark-muted transition-colors hover:text-on-dark"
-                >
-                  <span className="font-mono text-xs text-accent-light tabular-nums">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span>{place}</span>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="relative h-[320px] md:h-auto">
-          <iframe
-            title="Map to 3190 HW-160, Suite F, Pahrump, Nevada"
-            src={`https://www.google.com/maps?q=${MAP_QUERY}&z=13&output=embed`}
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            className="h-full w-full border-0"
-          />
-          <a
-            href={`https://www.google.com/maps?q=${MAP_QUERY}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="pill glass glass--accent absolute right-6 bottom-6 px-5 py-3 text-sm text-on-dark"
-          >
-            Get Directions
-          </a>
-        </div>
+      <Reveal as="div">
+        <LocationMap />
       </Reveal>
     </section>
   );
