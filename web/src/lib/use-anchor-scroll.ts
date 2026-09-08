@@ -17,6 +17,18 @@
  *
  * Shared by in-page anchor links and by the search results, so both use one
  * implementation and behave identically.
+ *
+ * `force: true` gets a scroll animation *started* while Lenis is stopped,
+ * but starting it isn't enough on its own inside the mobile menu: closing
+ * the menu unlocks scroll a beat later via `useScrollLock`'s cleanup, which
+ * calls `lenis.start()` — and `start()` internally calls `reset()`, which
+ * unconditionally sets `animatedScroll = targetScroll = actualScroll`,
+ * wiping out whatever target this call just set. The menu would close but
+ * the page would stay put. Calling `start()` here first, synchronously,
+ * before `scrollTo()`, means that later `start()` call finds Lenis already
+ * running and no-ops instead of resetting — regardless of which handler
+ * (the link's own, or an ancestor's onClose) fires first. `start()` is
+ * itself a no-op when Lenis isn't stopped, so this is free outside overlays.
  */
 export function scrollToElement(
   target: Element,
@@ -24,6 +36,7 @@ export function scrollToElement(
   force = false
 ) {
   if (window.__lenis) {
+    window.__lenis.start();
     window.__lenis.scrollTo(target as HTMLElement, { offset, force });
   } else {
     target.scrollIntoView({ behavior: "smooth", block: "start" });
