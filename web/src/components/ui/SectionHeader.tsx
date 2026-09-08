@@ -9,6 +9,15 @@ type SectionHeaderProps = {
   /** Set on the h2 so the parent <section> can aria-labelledby it. */
   titleId?: string;
   tone?: "light" | "dark";
+  /**
+   * Left (default) keeps the numeral/eyebrow/title block on the page's left
+   * margin — the 01–06 rhythm running down the same edge every other
+   * section uses. Center is an intentional exception for About: it's the
+   * one section already built as a single centered column rather than the
+   * shared two-column pattern, and a left-pinned header over centered body
+   * content read as the header being misplaced rather than distinct.
+   */
+  align?: "left" | "center";
 };
 
 /**
@@ -29,13 +38,20 @@ export function SectionHeader({
   title,
   titleId,
   tone = "light",
+  align = "left",
 }: SectionHeaderProps) {
   const isDark = tone === "dark";
+  const isCentered = align === "center";
 
   return (
     <>
       <Reveal>
-        <div className="mb-5 flex items-baseline gap-5">
+        <div
+          className={cn(
+            "mb-5 flex items-baseline gap-5",
+            isCentered && "justify-center"
+          )}
+        >
           <span
             aria-hidden="true"
             className={cn("ghost-numeral", isDark && "ghost-numeral--light")}
@@ -48,7 +64,10 @@ export function SectionHeader({
         </div>
       </Reveal>
       <Reveal delay={1}>
-        <h2 id={titleId} className={cn("h2", isDark && "text-on-dark")}>
+        <h2
+          id={titleId}
+          className={cn("h2", isDark && "text-on-dark", isCentered && "text-center")}
+        >
           {title}
         </h2>
       </Reveal>

@@ -24,6 +24,7 @@ export function AboutSection() {
           eyebrow="Meet Your Agent"
           title="Marci Metzger"
           titleId="about-heading"
+          align="center"
         />
       </div>
 
