@@ -263,15 +263,27 @@ img {
 
   /* The previous scrim used a via-black/15 midpoint, which landed exactly
      where the eyebrow and subheading sit — over the brightest part of the
-     photograph. Weighted toward the bottom instead. */
+     photograph. Weighted toward the bottom instead.
+
+     WCAG AA re-audit (measured by compositing the brightest sampled hero
+     pixel with the scrim's alpha in gamma space, per-viewport, at 1217px
+     and 1440px): the old 60% stop (0.38) sat right under the eyebrow/H1
+     band and measured 3.3–3.8:1 there — under the 4.5:1 (small text) and
+     uncomfortably close to the 3:1 (large text) floors. Two new
+     intermediate stops (45%, 70%) reinforce exactly the ~25–65% band the
+     text occupies without touching the 0% and 100% anchors, so the top
+     ~30% of the photo (near the 100% stop) stays as bright/visible as
+     before. */
   .hero-scrim {
     position: absolute;
     inset: 0;
     background: linear-gradient(
       to top,
       rgba(0, 0, 0, 0.88) 0%,
-      rgba(0, 0, 0, 0.72) 30%,
-      rgba(0, 0, 0, 0.38) 60%,
+      rgba(0, 0, 0, 0.82) 25%,
+      rgba(0, 0, 0, 0.8) 45%,
+      rgba(0, 0, 0, 0.66) 60%,
+      rgba(0, 0, 0, 0.44) 70%,
       rgba(0, 0, 0, 0.5) 100%
     );
   }

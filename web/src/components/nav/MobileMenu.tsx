@@ -90,9 +90,8 @@ export function MobileMenu({
                   transition-colors, where its only effect was to lag hover. */}
               <span
                 className={cn(
-                  "block font-mono text-xs tracking-[0.2em] transition-[opacity,transform,color] duration-500",
-                  open ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0",
-                  isActive ? "text-accent-light" : "text-on-dark-muted"
+                  "block font-mono text-xs tracking-[0.2em] text-accent-light transition-[opacity,transform,color] duration-500",
+                  open ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
                 )}
                 style={{ transitionDelay: open ? `${i * 40}ms` : "0ms" }}
                 aria-hidden="true"

@@ -89,7 +89,7 @@ export function GalleryGrid({ photos }: { photos: Photo[] }) {
   return (
     <>
       <div className="mb-6 flex items-end justify-between gap-4">
-        <p className="font-mono text-xs tracking-[0.08em] text-muted tabular-nums">
+        <p className="font-mono text-xs tracking-[0.08em] text-accent tabular-nums">
           {String(activeIndex + 1).padStart(2, "0")} /{" "}
           {String(photos.length).padStart(2, "0")}
         </p>

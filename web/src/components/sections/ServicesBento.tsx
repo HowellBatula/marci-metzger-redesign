@@ -67,7 +67,7 @@ function BentoCard({ service, large = false }: { service: Service; large?: boole
     <Reveal
       className={cn(
         "group relative isolate overflow-hidden",
-        large ? "aspect-[4/5] md:row-span-2 md:aspect-auto" : "aspect-[4/3] md:aspect-auto"
+        large ? "aspect-[4/5] md:row-span-2 md:aspect-auto" : "aspect-[5/4] sm:aspect-[4/3] md:aspect-auto"
       )}
     >
       <Image
@@ -79,12 +79,12 @@ function BentoCard({ service, large = false }: { service: Service; large?: boole
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
 
-      <div className="glass absolute inset-x-4 bottom-4 p-5 md:inset-x-6 md:bottom-6 md:p-6">
-        <Icon size={20} strokeWidth={1.5} className="mb-3 text-accent-light" />
-        <h3 className="mb-2 font-serif text-2xl leading-tight tracking-tight text-on-dark md:text-[1.75rem]">
+      <div className="glass absolute inset-x-4 bottom-4 p-4 sm:p-5 md:inset-x-6 md:bottom-6 md:p-6">
+        <Icon size={20} strokeWidth={1.5} className="mb-2 text-accent-light sm:mb-3" />
+        <h3 className="mb-1 font-serif text-xl leading-tight tracking-tight text-on-dark sm:mb-2 sm:text-2xl md:text-[1.75rem]">
           {service.title}
         </h3>
-        <p className="max-w-sm text-sm leading-relaxed text-on-dark-muted">
+        <p className="line-clamp-2 max-w-sm text-sm leading-snug text-on-dark-muted sm:line-clamp-none sm:leading-relaxed">
           {service.body}
         </p>
       </div>
