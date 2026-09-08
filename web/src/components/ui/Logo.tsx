@@ -20,13 +20,17 @@ export function Logo({
   height = 30,
   className,
   priority = false,
+  forceScroll = false,
 }: {
   light?: boolean;
   height?: number;
   className?: string;
   priority?: boolean;
+  /** Pass true when rendering inside a component that may have Lenis
+   *  stopped at click time (the open mobile menu) — see use-anchor-scroll.ts. */
+  forceScroll?: boolean;
 }) {
-  const onAnchorClick = useAnchorScroll();
+  const onAnchorClick = useAnchorScroll(forceScroll);
 
   return (
     <Link

@@ -19,7 +19,11 @@ export function MobileMenu({
   onClose: () => void;
   activeId?: string | null;
 }) {
-  const onAnchorClick = useAnchorScroll();
+  // force:true — opening the menu stops Lenis (useScrollLock), and Lenis's
+  // own scrollTo() silently no-ops while stopped unless forced. Without
+  // this, clicking a link did nothing: the scroll request was dropped, then
+  // the menu closed and restarted Lenis with nothing left to animate to.
+  const onAnchorClick = useAnchorScroll(true);
   const panelRef = useRef<HTMLDivElement | null>(null);
   const closeRef = useRef<HTMLButtonElement | null>(null);
 
@@ -51,7 +55,7 @@ export function MobileMenu({
         {/* Dismisses the menu too — otherwise it scrolls to the top behind an
             overlay that stays open. */}
         <div className="justify-self-center" onClick={onClose}>
-          <Logo light height={44} />
+          <Logo light height={44} forceScroll />
         </div>
         <button
           ref={closeRef}

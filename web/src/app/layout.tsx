@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Instrument_Sans } from "next/font/google";
+import { Instrument_Sans, Instrument_Serif } from "next/font/google";
 import { LenisProvider } from "@/lib/lenis-provider";
 import { PageCover } from "@/components/ui/PageCover";
 import { SiteNav } from "@/components/nav/SiteNav";
@@ -9,6 +9,16 @@ import "./globals.css";
 
 const instrumentSans = Instrument_Sans({
   variable: "--font-instrument-sans",
+  subsets: ["latin"],
+});
+
+// Instrument Serif ships one weight (400) and an italic — that's the whole
+// point of the pairing: same foundry, same proportions as Instrument Sans,
+// so the two read as one considered family rather than a bolted-on display
+// face. Carries every h1/h2/h3 (see globals.css); body/UI stays sans.
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-instrument-serif",
+  weight: "400",
   subsets: ["latin"],
 });
 
@@ -62,7 +72,10 @@ const jsonLd = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${instrumentSans.variable} h-full`}>
+    <html
+      lang="en"
+      className={`${instrumentSans.variable} ${instrumentSerif.variable} h-full`}
+    >
       <body className="flex min-h-full flex-col">
         <script
           type="application/ld+json"

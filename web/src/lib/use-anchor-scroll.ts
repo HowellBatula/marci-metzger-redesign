@@ -6,19 +6,33 @@
  * scrollIntoView otherwise — e.g. under reduced-motion, where LenisProvider
  * intentionally never instantiates Lenis.
  *
+ * `force` matters specifically for callers inside an active scroll lock
+ * (the mobile menu): opening the menu calls `lenis.stop()`, and Lenis's own
+ * `scrollTo()` silently no-ops while stopped unless `force: true` is passed
+ * — confirmed in its source (`scrollTo() { if ((this.isStopped ...) &&
+ * !force) return; }`). Without it, clicking a menu link fired a scroll
+ * request that Lenis dropped on the floor, then the menu closed and
+ * restarted Lenis a beat later with nothing left to animate to — the page
+ * just stayed put. That was the "menu doesn't scroll to the section" bug.
+ *
  * Shared by in-page anchor links and by the search results, so both use one
  * implementation and behave identically.
  */
-export function scrollToElement(target: Element, offset = -24) {
+export function scrollToElement(
+  target: Element,
+  offset = -24,
+  force = false
+) {
   if (window.__lenis) {
-    window.__lenis.scrollTo(target as HTMLElement, { offset });
+    window.__lenis.scrollTo(target as HTMLElement, { offset, force });
   } else {
     target.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 }
 
-/** Click handler for in-page hash links. */
-export function useAnchorScroll() {
+/** Click handler for in-page hash links. Pass `force: true` when the link
+ *  lives inside a component that may have Lenis stopped at click time. */
+export function useAnchorScroll(force = false) {
   return function onAnchorClick(e: React.MouseEvent<HTMLAnchorElement>) {
     const href = e.currentTarget.getAttribute("href");
     if (!href || !href.startsWith("#")) return;
@@ -26,7 +40,7 @@ export function useAnchorScroll() {
     if (!target) return;
 
     e.preventDefault();
-    scrollToElement(target);
+    scrollToElement(target, -24, force);
     history.pushState(null, "", href);
   };
 }

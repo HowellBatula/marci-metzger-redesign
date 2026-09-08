@@ -84,10 +84,11 @@ export function SiteNav() {
           </div>
 
           <div className="justify-self-center">
-            {/* Sized for legibility, not parity with a compact logomark: this
-                is a two-line wordmark with a script sub-line, which turns to
-                mush much below ~36px. */}
-            <Logo light priority height={scrolled ? 36 : 44} />
+            {/* Constant height at every scroll position — it shrank on scroll
+                before, which read as inconsistent rather than refined. Sized
+                for legibility: a two-line wordmark with a script sub-line
+                turns to mush much below ~36px, so 44 stays fixed throughout. */}
+            <Logo light priority height={44} />
           </div>
 
           <div className="justify-self-end">

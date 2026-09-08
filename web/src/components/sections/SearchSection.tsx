@@ -191,7 +191,7 @@ export function SearchSection() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="pill bg-ink px-6 py-3.5 text-sm tracking-wide text-on-dark transition-colors hover:bg-accent disabled:cursor-not-allowed disabled:opacity-60"
+                  className="pill glass glass--accent px-6 py-3.5 text-sm tracking-wide text-on-dark disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {isSubmitting ? "Searching…" : "Search Now"}
                 </button>

@@ -71,7 +71,7 @@ export function Lightbox({
           type="button"
           onClick={onClose}
           aria-label="Close photo viewer"
-          className="pill flex h-11 w-11 items-center justify-center border border-line-dark text-on-dark transition-colors hover:bg-white/10"
+          className="pill glass flex h-11 w-11 items-center justify-center text-on-dark"
         >
           <X size={20} strokeWidth={1.5} />
         </button>
@@ -102,7 +102,7 @@ export function Lightbox({
           type="button"
           onClick={() => go(-1)}
           aria-label="Previous photo"
-          className="pill flex h-11 w-11 shrink-0 items-center justify-center border border-line-dark text-on-dark transition-colors hover:bg-white/10"
+          className="pill glass flex h-11 w-11 shrink-0 items-center justify-center text-on-dark"
         >
           <ArrowLeft size={20} strokeWidth={1.5} />
         </button>
@@ -125,7 +125,7 @@ export function Lightbox({
           type="button"
           onClick={() => go(1)}
           aria-label="Next photo"
-          className="pill flex h-11 w-11 shrink-0 items-center justify-center border border-line-dark text-on-dark transition-colors hover:bg-white/10"
+          className="pill glass flex h-11 w-11 shrink-0 items-center justify-center text-on-dark"
         >
           <ArrowRight size={20} strokeWidth={1.5} />
         </button>

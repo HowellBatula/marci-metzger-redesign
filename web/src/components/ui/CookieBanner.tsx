@@ -28,13 +28,13 @@ export function CookieBanner() {
       <div className="flex shrink-0 gap-3">
         <button
           onClick={() => setConsent("declined")}
-          className="pill border border-line-dark px-5 py-2.5 text-sm text-on-dark transition-colors hover:bg-white/10"
+          className="pill glass px-5 py-2.5 text-sm text-on-dark"
         >
           Decline
         </button>
         <button
           onClick={() => setConsent("accepted")}
-          className="pill bg-accent px-5 py-2.5 text-sm text-on-dark transition-colors hover:bg-white hover:text-ink"
+          className="pill glass glass--accent px-5 py-2.5 text-sm text-on-dark"
         >
           Accept
         </button>

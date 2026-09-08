@@ -18,9 +18,14 @@ type ButtonProps = {
   rel?: string;
 };
 
+// Both glass — see the .glass comment in globals.css for why a dark tint,
+// not an accent-colored one, is what stays contrast-safe over photography.
+// outlineDark (unused currently, kept for a future button on a light panel)
+// stays a plain bordered treatment since glass reads as a dark chip and
+// would look like a mistake sitting directly on a light background.
 const variants = {
-  solid: "bg-accent text-on-dark hover:bg-ink",
-  outlineLight: "border border-line-dark text-on-dark hover:bg-white/10",
+  solid: "glass glass--accent text-on-dark",
+  outlineLight: "glass text-on-dark",
   outlineDark: "border border-line text-ink hover:bg-ink hover:text-on-dark",
 };
 

@@ -1,13 +1,15 @@
 @import "tailwindcss";
 
 /* ===========================================================
-   MARCI METZGER HOMES — design tokens (v2 / Awwwards rebuild)
-   Monochrome-first system modeled on 360lexingtonave.com:
-   one typeface (Instrument Sans) doing all the work, huge
-   regular-weight headlines with tight negative tracking, near-
-   black / white base, color supplied by photography. One brass
-   accent kept for CTA affordance (the reference has none, but a
-   realtor site needs a clickable-looking action color).
+   MARCI METZGER HOMES — design tokens (v3 / luxury refresh)
+   Warm-ivory, serif-headline evolution of the v2 monochrome system.
+   Instrument Sans stays for body/UI/mono-ish labels; Instrument Serif
+   (same type foundry — deliberately a companion face, not a random
+   pairing) carries every headline. Paper moves from stark white to a
+   warm ivory, ink and dark both pick up a warm undertone instead of
+   cool near-black, and the brass accent is unchanged where contrast
+   was audit-verified — only accent-light (large margin, dark bg only)
+   was enriched.
 
    CASCADE CONTRACT — read before adding a class here:
    Every custom class below lives in `@layer components`, which
@@ -19,29 +21,32 @@
    =========================================================== */
 
 :root {
-  --ink: #111213;
-  --ink-soft: rgba(17, 18, 19, 0.7);
-  /* 0.62 composites to ~#6b6c6d → 5.30:1 on white, 5.17:1 on --paper-2.
-     Was 0.56, which measured 4.20:1 and failed WCAG AA for body text. */
-  --muted: rgba(17, 18, 19, 0.62);
-  --paper: #ffffff;
-  --paper-2: #f7f7f5;
-  --line: rgba(17, 18, 19, 0.12);
-  --dark: #111213;
-  --dark-2: #1b1c1d;
-  --line-dark: rgba(255, 255, 255, 0.14);
-  --on-dark: #ffffff;
-  --on-dark-muted: rgba(255, 255, 255, 0.66);
-  /* Darkened from #9c7a3e (3.99:1 under white — failed AA) to 4.96:1.
-     --accent is only ever a background beneath white text; --accent-light
-     is only ever used on --dark (8.03:1) and needs no change. */
+  --ink: #1c1712;
+  --ink-soft: rgba(28, 23, 18, 0.72);
+  /* 0.64 on the new warm ivory tokens re-measures at ~5.1–5.3:1 — verified
+     live after the palette swap, same margin the audit fix established. */
+  --muted: rgba(28, 23, 18, 0.64);
+  --paper: #fbf8f2;
+  --paper-2: #f3ede1;
+  --line: rgba(28, 23, 18, 0.14);
+  --dark: #17120d;
+  --dark-2: #221a12;
+  --line-dark: rgba(251, 248, 242, 0.14);
+  --on-dark: #fbf8f2;
+  --on-dark-muted: rgba(251, 248, 242, 0.68);
+  /* Unchanged: audit-verified 4.96:1 under white/on-dark text. --accent is
+     only ever a glass/solid background beneath light text — don't retune
+     without re-measuring, this one is contrast-load-bearing. */
   --accent: #8a6b34;
-  --accent-light: #c7a467;
+  /* Enriched from #c7a467 toward a deeper champagne gold. Only ever used on
+     --dark at 8:1+ margin (hairlines, eyebrows, glass button rims), so there
+     was room to warm it without touching AA math. */
+  --accent-light: #d2a968;
 
   /* Ghost numerals are aria-hidden decoration, so WCAG 1.4.11 does not
      apply — 0.12 was raised to 0.34 simply because they were invisible. */
-  --numeral-stroke: rgba(17, 18, 19, 0.34);
-  --numeral-stroke-light: rgba(255, 255, 255, 0.34);
+  --numeral-stroke: rgba(28, 23, 18, 0.34);
+  --numeral-stroke-light: rgba(251, 248, 242, 0.34);
 
   --container: 1400px;
   --gutter: clamp(1.25rem, 4vw, 4rem);
@@ -68,6 +73,7 @@
   --color-accent-light: var(--accent-light);
 
   --font-sans: var(--font-instrument-sans);
+  --font-serif: var(--font-instrument-serif);
 
   --container-page: var(--container);
 }
@@ -188,22 +194,31 @@ img {
   }
 
   /* ---------- typography scale ---------- */
+  /* Instrument Serif carries every headline; body copy, eyebrows, mono
+     labels and UI stay on Instrument Sans (body's default font-family) —
+     the pairing itself is the "luxury" move, not a heavier serif weight
+     (the face only ships 400). Negative tracking is dropped on the serif:
+     it was tuned for the sans's grotesk shapes and over-tightens serif
+     letterforms into collision. */
   .h1 {
+    font-family: var(--font-serif);
     font-weight: 400;
-    letter-spacing: var(--tracking-tight);
-    line-height: 0.98;
-    font-size: clamp(3rem, 3vw + 4rem, 7rem);
+    letter-spacing: -0.01em;
+    line-height: 1;
+    font-size: clamp(3.25rem, 3vw + 4rem, 7.5rem);
   }
   .h2 {
+    font-family: var(--font-serif);
     font-weight: 400;
-    letter-spacing: var(--tracking-tight);
-    line-height: 1.02;
+    letter-spacing: -0.01em;
+    line-height: 1.04;
     font-size: clamp(2.5rem, 2.5vw + 1.75rem, 4.625rem);
   }
   .h3 {
+    font-family: var(--font-serif);
     font-weight: 400;
-    letter-spacing: var(--tracking-tight);
-    line-height: 1.08;
+    letter-spacing: -0.005em;
+    line-height: 1.1;
     font-size: clamp(1.75rem, 1vw + 1.5rem, 3rem);
   }
 
@@ -264,6 +279,48 @@ img {
   /* ---------- pill / buttons ---------- */
   .pill {
     border-radius: 9999px;
+  }
+
+  /* ---------- glassmorphism ---------- */
+  /* Frosted-glass chip, extracted from the nav pills (which already did
+     `backdrop-blur-md bg-dark/50..85`) into a shared surface so every
+     button in the system reads as one family instead of the nav being
+     the only glass thing on the page.
+
+     Deliberately a DARK, near-opaque tint rather than a light or
+     accent-colored one. The math matters here: a translucent ACCENT
+     background composited over a bright backdrop (a sunlit hero photo,
+     a pale map) lightens toward the backdrop and white text on it can
+     drop well under 3:1 — verified by computing the worst case (pure
+     white behind it) at a few opacities before picking these numbers.
+     A translucent DARK tint does the opposite: compositing it over any
+     backdrop, bright or dark, only ever darkens the result, so on-dark
+     text stays safe everywhere. At 0.6 opacity, on-dark white against
+     this chip over a worst-case pure-white backdrop still measures
+     ~4.6:1 — meets AA with the backdrop that hurts it most. */
+  .glass {
+    background: rgba(23, 18, 13, 0.6);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid var(--line-dark);
+    box-shadow:
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.1),
+      0 8px 20px -12px rgba(0, 0, 0, 0.4);
+    transition:
+      background-color 0.3s var(--ease-soft),
+      border-color 0.3s var(--ease-soft);
+  }
+  .glass:hover {
+    background: rgba(23, 18, 13, 0.76);
+  }
+  /* Primary-action variant: same contrast-safe dark base, a gold rim on
+     top for identity instead of an unsafe gold fill. */
+  .glass--accent {
+    border-color: rgba(210, 169, 104, 0.55);
+  }
+  .glass--accent:hover {
+    background: rgba(23, 18, 13, 0.76);
+    border-color: rgba(210, 169, 104, 0.85);
   }
 
   /* ---------- form fields ---------- */

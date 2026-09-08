@@ -99,7 +99,7 @@ export function GalleryGrid({ photos }: { photos: Photo[] }) {
             onClick={() => goTo(activeIndex - 1)}
             disabled={atStart}
             aria-label="Previous photo"
-            className="pill flex h-11 w-11 items-center justify-center border border-line text-ink transition-colors hover:bg-ink hover:text-paper disabled:pointer-events-none disabled:opacity-30"
+            className="pill glass flex h-11 w-11 items-center justify-center text-on-dark disabled:pointer-events-none disabled:opacity-30"
           >
             <ArrowLeft size={18} strokeWidth={1.5} />
           </button>
@@ -108,7 +108,7 @@ export function GalleryGrid({ photos }: { photos: Photo[] }) {
             onClick={() => goTo(activeIndex + 1)}
             disabled={atEnd}
             aria-label="Next photo"
-            className="pill flex h-11 w-11 items-center justify-center border border-line text-ink transition-colors hover:bg-ink hover:text-paper disabled:pointer-events-none disabled:opacity-30"
+            className="pill glass flex h-11 w-11 items-center justify-center text-on-dark disabled:pointer-events-none disabled:opacity-30"
           >
             <ArrowRight size={18} strokeWidth={1.5} />
           </button>
