@@ -50,7 +50,19 @@ export function AboutSection() {
           </div>
         </Reveal>
 
-        <Reveal delay={1} className="max-w-lg">
+        {/* Her own voice, not the site's — set apart in the display serif
+            rather than folded into the (third-person) bio paragraph below,
+            the way a magazine profile pulls one line out of the copy and
+            gives it room. Carries the emotional register so the bio
+            underneath is free to stay purely factual. */}
+        <Reveal delay={1} className="max-w-md">
+          <p className="h3 text-ink">
+            &ldquo;I treat every client like a neighbor — because in a town
+            this size, that&rsquo;s exactly what you are.&rdquo;
+          </p>
+        </Reveal>
+
+        <Reveal delay={2} className="max-w-lg">
           <p className="mb-4 text-lg text-ink">
             Realtor for Nearly 3 Decades
           </p>
@@ -58,7 +70,7 @@ export function AboutSection() {
             Licensed broker in Seattle for over twenty years, now serving
             Southern Nevada as Pahrump&rsquo;s go-to real estate agent —
             Marci brings big-market experience to a close-knit desert
-            community, and treats every client like a neighbor.
+            community.
           </p>
           <a
             href="tel:12069196886"
