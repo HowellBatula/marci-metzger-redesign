@@ -48,10 +48,16 @@
      Gold-tinted (not neutral ink/on-dark) so they read as the same motif
      as every other numbered element on the page — nav numerals, gallery
      counter, section eyebrows all went gold in the round-2 fix and the
-     ghost numeral was the one holdout still in a neutral tone. Alpha is
-     higher than the neutral version it replaces (0.34 → 0.4) because gold
-     is lighter than ink/on-dark and needs it to read at the same weight. */
-  --numeral-stroke: rgba(138, 107, 52, 0.4);
+     ghost numeral was the one holdout still in a neutral tone.
+
+     The light-background variant needed a second pass: at 0.4 alpha,
+     --accent composited over --paper only measures ~1.78:1 — a thin 1px
+     stroke at that ratio is right at the edge of not registering as a
+     shape at all, which is what made "04"/"05" read as blank on Gallery
+     and Services. 0.75 gets it to ~3:1, clearly legible as a watermark
+     without going solid. The dark-background variant isn't touched — gold
+     on --dark starts from better separation and wasn't the one reported. */
+  --numeral-stroke: rgba(138, 107, 52, 0.75);
   --numeral-stroke-light: rgba(210, 169, 104, 0.4);
 
   --container: 1400px;
